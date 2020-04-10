@@ -66,7 +66,7 @@ public class NewSorting {
         //int temp = pivot;
        // A[left] = A[more];
        // A[more] = temp;
-
+ 
         return more;
     }
 
