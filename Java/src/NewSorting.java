@@ -36,9 +36,9 @@ public class NewSorting {
             return;
         }
         if (left < right) {
-            int position = partition(A, left, right); //method call to partition
-            quickSort(A,  left,  position - 1); //recursive call
-            quickSort(A, position + 1, right); //recursive call
+            int split = partition(A, left, right); //method call to partition
+            quickSort(A,  left,  split - 1); //recursive call
+            quickSort(A, split + 1, right); //recursive call
         }
     }
 
@@ -47,57 +47,54 @@ public class NewSorting {
         int less = left + 1; //pivot is assigned to first element so less starts at the next element
         int more = right; //more assigned to the right value
 
-        while(less < more){
-            if(more >= left && A[more] >= pivot){ //more must be greater than left and pivot to move to next index
+        while(less <= more){
+            while(more > left && A[more] >= pivot){ //more must be greater than left and pivot to move to next index
                 more--; //decrease right side
             }
 
-            else if(less <= right && A[less] <= pivot){ //less must be less than the right and pivot to move to next index
+            while(less < right && A[less] <= pivot){ //less must be less than the right and pivot to move to next index
                 less++; //increase left side
             }
 
-            else{ //swap
+            if(less <= more){
                 int temp = A[less]; //if less is greater than more, enter value of less into temp value
                 A[less] = A[more]; //less takes value of more
                 A[more] = temp; //more takes value of less
+                left++;
+                more--;
             }
         }
-
-        //int temp = pivot;
-       // A[left] = A[more];
-       // A[more] = temp;
- 
-        return more;
+        return less;
     }
 
     private void mergeSortedHalves(int[] A, int[] left, int[] right){
-        int[] result = new int[A.length];
+        //int[] result = new int[A.length];
         int i = 0; //assigned to left
         int j = 0; //assigned to right
         int k = 0; //assigned to result
 
         while(i < left.length && j < right.length){
             if(left[i] > right[j]){ //if right is less than left add right first
-                result[k] = right[j]; //adding element to array
+                A[k] = right[j]; //adding element to array
                 j++; //increment index
             }
             else {
-                result[k] = left[i]; //if left is less than right add left first
+                A[k] = left[i]; //if left is less than right add left first
                 i++;//increment index
             }
             k++; //keep incrementing index as data is entered
 
             if(i == left.length){ //avoid going out of bounds but right length is larger
                 if(j < right.length){ //avoid right going out of bounds
-                    result[k] = right[i];
-                   // i++; //increment index
+                    A[k] = right[i];
+                    //i++; //increment index
                     break; //end loop
                 }
                 i++; //increment index
             }
             if(j == right.length){ //avoid going out of bounds but left length is longer
                 if(i < left.length){ //avoid left going out of bounds
-                    result[k] = left[i];
+                    A[k] = left[i];
                     //j++; //increment index
                     break; //end loop
                 }
